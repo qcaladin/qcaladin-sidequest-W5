@@ -25,6 +25,8 @@ let player;
 let camX = 0;
 let camY = 0;
 
+let gameState = "play";
+
 function preload() {
   worldData = loadJSON("world.json"); // load JSON before setup [web:122]
 }
@@ -44,6 +46,7 @@ function setup() {
 }
 
 function draw() {
+  if (gameState === "play") {
   player.updateInput();
 
   // Keep player inside world
@@ -65,6 +68,13 @@ function draw() {
   camX = lerp(camX, targetX, camLerp);
   camY = lerp(camY, targetY, camLerp);
 
+  level.checkPlayerCollision(player);
+
+  if (level.allFound()) {
+  gameState = "end";
+  }
+}
+
   level.drawBackground();
 
   push();
@@ -74,11 +84,32 @@ function draw() {
   pop();
 
   level.drawHUD(player, camX, camY);
+
+
+  if (gameState === "end") {
+    fill(0, 180);
+    rect(0, 0, width, height);
+    fill(255);
+    textAlign(CENTER, CENTER);
+    textSize(30);
+    text("You found them all! YAY!", width / 2, height / 2);
+    textSize(14);
+    text("Press R to reset", width / 2, height / 2 + 30);
+    textAlign(LEFT, BASELINE);
+  }
 }
 
 function keyPressed() {
   if (key === "r" || key === "R") {
+
+    level.reset();
+
     const start = worldData.playerStart ?? { x: 300, y: 300, speed: 3 };
     player = new Player(start.x, start.y, start.speed);
+
+    camX = player.x - width / 2;
+    camY = player.y - height / 2;
+
+    gameState = "play";
   }
 }
