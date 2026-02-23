@@ -15,6 +15,11 @@ Queene Calading | qcaladin | 21094601
 This matches the structure of the original world scroller from Week 5 Example 4, but includes collectible circles placed throughout the map for players to find and earn points from
 
 ---
+## Interaction Instructions
+
+Press A/D or ←/→ to move Left/Right Press W/S or ↑/ ↓ to move Up/Down
+
+---
 
 ## Assets
 
